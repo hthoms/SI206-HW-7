@@ -4,8 +4,8 @@ import requests
 import json
 
 ## SI 206 - HW
-## COMMENT WITH:
-## Your section day/time:
+## COMMENT WITH: Hannah Thoms
+## Your section day/time: Thursday 8:30am
 ## Any names of people you worked with on this assignment:
 
 
@@ -38,6 +38,9 @@ import json
 ## contains your consumer_key, consumer_secret, access_token, and access_token_secret, 
 ## import that file here.  Do NOT add and commit that file to a public GitHub repository.
 
+
+
+
 ## **** If you choose not to do that, we strongly advise using authentication information 
 ## for an 'extra' Twitter account you make just for this class, and not your personal 
 ## account, because it's not ideal to share your authentication information for a real 
@@ -46,10 +49,10 @@ import json
 ## Get your secret values to authenticate to Twitter. You may replace each of these 
 ## with variables rather than filling in the empty strings if you choose to do the secure way 
 ## for EC points
-consumer_key = "" 
-consumer_secret = ""
-access_token = ""
-access_token_secret = ""
+consumer_key = "fL2vECkmhzUpvj4u17I6PX3F3" 
+consumer_secret = "G9lNAsYQZDIXI02zDEcR1vxAz5rGqJvhrEQmfmv6cr2gZkMo0U"
+access_token = "920994168326979590-ryUwBHYar8dioeLOEaKqEvukep0GoDs"
+access_token_secret = "DmQAR4CmZCcS22AJJQ0V0iR9CPdZakDiIqLBnw0hXV3S1"
 ## Set up your authentication to Twitter
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -63,18 +66,39 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 #### Recommended order of tasks: ####
 ## 1. Set up the caching pattern start -- the dictionary and the try/except 
 ## 		statement shown in class.
+#serviceurl = 'http://maps.googleapis.com/maps/api/geocode/json?'
+CACHE_FNAME = 'HW7_twitter.json' # String for your file. We want the JSON file type, bcause that way, we can easily get the information into a Python dictionary!
+
+try:
+    cache_file = open(CACHE_FNAME, 'r') # Try to read the data from the file
+    cache_contents = cache_file.read()  # If it's there, get it into a string
+    CACHE_DICTION = json.loads(cache_contents) # And then load it into a dictionary
+    cache_file.close() # Close the file, we're good, we got the data in a dictionary.
+except:
+    CACHE_DICTION = {}
+
 
 
 
 ## 2. Write a function to get twitter data that works with the caching pattern, 
 ## 		so it either gets new data or caches data, depending upon what the input 
 ##		to search for is. 
+def get_twitter_data(term):
+
+	if term in CACHE_DICTION[term]:
+		print("using cache")
+		return CACHE_DICTION[term]
+	else:
+		print("fetching")
+		results = api.search(q=term)
+
 
 
 
 ## 3. Using a loop, invoke your function, save the return value in a variable, and explore the 
 ##		data you got back!
-
+for x in range(3):
+	get_twiter_data(input('Enter Tweet term: '))
 
 ## 4. With what you learn from the data -- e.g. how exactly to find the 
 ##		text of each tweet in the big nested structure -- write code to print out 
